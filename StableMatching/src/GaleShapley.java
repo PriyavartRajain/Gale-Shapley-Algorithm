@@ -12,15 +12,15 @@ public class GaleShapley {
 
 	public static void main(String[] args) {
 		int manPref[][] = new int[][] {{1,0,3,2,4},
-									   {3,1,2,1,4},
-									   {2,1,0,3,4},
-									   {4,2,3,1,0},
-									   {3,1,0,2,4}};
+					        {3,1,2,1,4},
+						{2,1,0,3,4},
+						{4,2,3,1,0},
+			       		        {3,1,0,2,4}};
 		int womanPref[][] = new int[][] {{3,2,1,4,0},
-										 {2,1,3,0,4},
-										 {0,2,1,4,3},
-										 {3,1,0,2,4},
-										 {1,0,3,2,4}};
+						{2,1,3,0,4},
+						{0,2,1,4,3},
+						{3,1,0,2,4},
+						{1,0,3,2,4}};
 		stabilize(manPref, womanPref);
 	}
 	
@@ -64,44 +64,44 @@ public class GaleShapley {
 		}
 		
 		while(freeMen.size()!=0 && next[freeMen.getFirst()]<num ) {		// next[freeMen.getFirst()]<num, means that 
-		   																// if next[m] for the free man is greater than num, then he has already proposed 
-																		// all women, in which case we exit the loop. We also exit the loop if the size of linked list = 0 i.e no free man available
+		   									// if next[m] for the free man is greater than num, then he has already proposed 
+											// all women, in which case we exit the loop. We also exit the loop if the size of linked list = 0 i.e no free man available
 			
 			
-			int currentMan = freeMen.getFirst();							//Grab the first free man from front of the list
+			int currentMan = freeMen.getFirst();					//Grab the first free man from front of the list
 			System.out.println("Current Man: "+currentMan);
 			int currentWoman = manPref[currentMan][next[currentMan]];		//Grab the highest ranked woman w on man m's list, m will propose to this w
 			System.out.println("Current Woman: "+currentWoman);				
 			
 
 			
-			next[currentMan] = next[currentMan]+1;							// Update the woman w to which m will propose next time (the next highest w on his list) if he remains free. 
-																			// This makes sure that m does not propose to the same woman again.
+			next[currentMan] = next[currentMan]+1;					// Update the woman w to which m will propose next time (the next highest w on his list) if he remains free. 
+												// This makes sure that m does not propose to the same woman again.
 
-			if(isFree(currentWoman, engagement)) {							// check if the woman to which m is proposing is free. w is free if engagement[w] = -1
-				engagement[currentWoman] = currentMan;						// if she is free. Update engagement[w] = m.
-				freeMen.removeFirst();										// remove m from the front of the list.
+			if(isFree(currentWoman, engagement)) {					// check if the woman to which m is proposing is free. w is free if engagement[w] = -1
+				engagement[currentWoman] = currentMan;				// if she is free. Update engagement[w] = m.
+				freeMen.removeFirst();						// remove m from the front of the list.
 
 			}
-			else if(!isFree(currentWoman, engagement)) {										//if w happens to be engaged
+			else if(!isFree(currentWoman, engagement)) {				//if w happens to be engaged
 
-				int anotherMan = engagement[currentWoman];										// grab the other man m' to which w is engaged.
+				int anotherMan = engagement[currentWoman];			// grab the other man m' to which w is engaged.
 
 
-				if(rank[currentWoman][anotherMan]<rank[currentWoman][currentMan]) {				// if m' ranks lesser on w's preference list than m (smaller ranks are better)
+				if(rank[currentWoman][anotherMan]<rank[currentWoman][currentMan]) {		// if m' ranks lesser on w's preference list than m (smaller ranks are better)
 					continue;																	// then m remains free and we go back to beginning of loop
 				}
 				else {																			// otherwise
-					engagement[currentWoman] = currentMan;										// we update engagement[w] = m from engagement[w] = m'
-					freeMen.removeFirst();														// m is removed from the front of the free man list
-					freeMen.addFirst(anotherMan);												// m' is added to the front of the free man list.
+					engagement[currentWoman] = currentMan;					// we update engagement[w] = m from engagement[w] = m'
+					freeMen.removeFirst();							// m is removed from the front of the free man list
+					freeMen.addFirst(anotherMan);						// m' is added to the front of the free man list.
 				}
 			}
 
 		}
 		
 		int j = 0;
-		System.out.println("Women    Men");														// Printing the engagements.
+		System.out.println("Women    Men");								// Printing the engagements.
 		for(int i : engagement) {
 			
 			System.out.print(j+"        ");
